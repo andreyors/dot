@@ -10,6 +10,8 @@ class TCPHandler
   end
 
   def process(data)
+    raise RangeError if data.size > 4096
+    
     tcp_socket = TCPSocket.open(provider.ip, provider.port)
 
     OpenSSL::SSL::SSLSocket.new(tcp_socket, ssl_context).tap do |wrapper|
@@ -22,9 +24,10 @@ class TCPHandler
 
       wrapper&.close
     end
-    tcp_socket&.close
-
+    
     data
+  ensure
+    tcp_socket&.close
   end
 
   def ssl_context
