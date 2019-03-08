@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    tty: true
+    volumes:
+      - './source:/src'
+    ports:
+      - '8053:8053'
+      - '8053:8053/udp'
