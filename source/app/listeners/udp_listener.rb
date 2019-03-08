@@ -18,14 +18,14 @@ class UDPListener
     udp_socket.setsockopt(:SOCKET, :REUSEADDR, 1)
 
     udp_socket.bind(server)
-    
+
     loop do
       Thread.new(udp_socket.recvfrom(4096)) do |data, client_address|
         response = udp_process(data)
 
         udp_socket.send(response, 0, client_address)
       end
-      
+
       sleep(0.5)
     end
   ensure

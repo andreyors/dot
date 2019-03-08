@@ -6,6 +6,8 @@ require "logger"
 require "socket"
 require "openssl"
 
+require_relative "../app/app"
+
 require_relative "../app/tcp_handler"
 
 require_relative "../app/providers/dns_over_tls_provider"

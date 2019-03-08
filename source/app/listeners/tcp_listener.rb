@@ -23,13 +23,13 @@ class TCPListener
     loop do
       Thread.new(tcp_socket.accept) do |conn, _|
         data = conn.readpartial(1024)
-  
+
         data = handler.process(data)
         conn.write(data)
-  
+
         conn&.close
       end
-      
+
       sleep(0.5)
     end
   ensure

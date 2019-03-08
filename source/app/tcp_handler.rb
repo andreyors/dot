@@ -10,10 +10,10 @@ class TCPHandler
   end
 
   def process(data)
-    tcp_socket = TCPSocket.open(self.provider.ip, self.provider.port)
+    tcp_socket = TCPSocket.open(provider.ip, provider.port)
 
     OpenSSL::SSL::SSLSocket.new(tcp_socket, ssl_context).tap do |wrapper|
-      wrapper.hostname = self.provider.ip
+      wrapper.hostname = provider.ip
       wrapper.sync_close = true
       wrapper.connect
 

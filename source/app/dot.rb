@@ -2,18 +2,9 @@
 
 require_relative "../config/app"
 
-LOG = Logger.new(STDOUT).tap do |logger|
-  logger.level = Logger::DEBUG
-  logger.progname = "dot"
-  logger.datetime_format = "%Y-%m-%d %H:%M:%S%z "
-end
+App.new do |app|
+  app.register -> { TCPListener.new(TCPHandler.new(Google.new)).run }
+  app.register -> { UDPListener.new(TCPHandler.new(Quad9.new)).run }
 
-threads = []
-threads << Thread.new { TCPListener.new(TCPHandler.new(Google.new)).run }
-threads << Thread.new { UDPListener.new(TCPHandler.new(Quad9.new)).run }
-
-threads.each(&:join)
-
-loop do
-  sleep(0.5)
+  app.run!
 end
