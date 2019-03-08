@@ -18,18 +18,18 @@ class UDPListener
     udp_socket.setsockopt(:SOCKET, :REUSEADDR, 1)
 
     udp_socket.bind(server)
-
-    Thread.new do
-      loop do
-        data, client_address = udp_socket.recvfrom(4096)
-
+    
+    loop do
+      Thread.new(udp_socket.recvfrom(4096)) do |data, client_address|
         response = udp_process(data)
 
         udp_socket.send(response, 0, client_address)
-
-        sleep(0.5)
       end
+      
+      sleep(0.5)
     end
+  ensure
+    udp_socket&.close
   end
 
   def udp_process(data)

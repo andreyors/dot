@@ -10,7 +10,7 @@ class TCPHandler
   end
 
   def process(data)
-    tcp_socket = TCPSocket.open(provider.ip, provider.port)
+    tcp_socket = TCPSocket.open(self.provider.ip, self.provider.port)
 
     OpenSSL::SSL::SSLSocket.new(tcp_socket, ssl_context).tap do |wrapper|
       wrapper.hostname = self.provider.ip
@@ -20,7 +20,7 @@ class TCPHandler
       wrapper.syswrite(data)
       data = wrapper.sysread(4096)
 
-      wrapper&.sysclose
+      wrapper&.close
     end
     tcp_socket&.close
 

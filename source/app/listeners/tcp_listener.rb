@@ -20,18 +20,19 @@ class TCPListener
     tcp_socket.bind(server)
     tcp_socket.listen(Socket::SOMAXCONN)
 
-    Thread.new do
-      loop do
-        conn, = tcp_socket.accept
-
+    loop do
+      Thread.new(tcp_socket.accept) do |conn, _|
         data = conn.readpartial(1024)
-
+  
         data = handler.process(data)
         conn.write(data)
-
+  
         conn&.close
-        sleep(0.5)
       end
+      
+      sleep(0.5)
     end
+  ensure
+    tcp_socket&.close
   end
 end
