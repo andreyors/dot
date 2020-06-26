@@ -41,7 +41,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.10.0)
-    unicode-display_width (1.5.0)
+    unicode-display_width (1.7.0)
 
 PLATFORMS
   ruby
